@@ -43,14 +43,22 @@ class Models extends Command
         $pathModels ='';
         if($module){
             $pathModels = base_path('modules/' . $module.'/Models'); 
+            if(!File::exists($pathModels)) {
+                return $this->error('Module không tồn tại ');
+            }  
         }else{
             $pathModels = base_path('modules/' . $name.'/Models');
         }
          
         $template = app_path('Console/Commands/template/models.txt');
         if (File::exists($template)) {
-            $content = file_get_contents($template);               
-            $newContent = str_replace('{module}',$name, $content);
+            $content = file_get_contents($template); 
+            if($module == null){
+                $newContent = str_replace('{module}',$name, $content);
+            }else{
+                $newContent = str_replace('\\{module}',"\\$module", $content); 
+                $newContent = str_replace('{module}',$name, $newContent);
+            }                          
            
             $newModels = $pathModels . '/' . $nameModels;
             if(!File::exists($newModels)) {                

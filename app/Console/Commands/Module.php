@@ -65,6 +65,7 @@ class Module extends Command
                     $name.'/Helpers',
                     $name.'/Http',
                     $name.'/Http/Controllers',
+                    $name.'/Http/Controllers/api',
                     $name.'/Http/Middleware',
                     $name.'/Http/Requests',
                     $name.'/Models',
@@ -95,6 +96,12 @@ class Module extends Command
                     'name' => strtolower($name),
                 ]);
                 
+                $viewPath = base_path("app/Console/Commands/template");
+                $sourceView = $viewPath ."/index.blade.php";
+                if (File::exists($sourceView)){
+                    $destView = $pathModule."/Resources/views/index.blade.php";
+                    File::copy($sourceView, $destView);
+                }
                 $this->info('Module success');
             }
         }

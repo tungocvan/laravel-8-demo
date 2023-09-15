@@ -47,10 +47,10 @@ class RemoveMiddlewareKernel extends Command
             return;
         }
         $content = file_get_contents($kernelFile);
-
-        $foundString = "'{$methodName}.middleware' => \\Modules\\{$name}\Http\Middleware\\{$name}::class,"; 
-        if ($foundString) {                       
-            $content = str_replace($foundString,'', $content);
+        //$foundString = "'{$methodName}.middleware' => \\Modules\\{$name}\Http\Middleware\\{$name}::class,"; 
+        $foundString = "'{$methodName}.middleware' => \\Modules\\{$name}\Http\Middleware\\{$name}::class,";         
+        if ($foundString) {                                   
+            $content = preg_replace('/^.*' . preg_quote($foundString, '/') . '.*\n?/m', '', $content);
             file_put_contents($kernelFile, $content);
             $this->info('Middleware Remove successfully!');
         }else{

@@ -12,7 +12,7 @@ class AddMiddlewareKernel extends Command
      *
      * @var string
      */
-    protected $signature = 'module:update-middleware {name}';
+    protected $signature = 'module:update-middleware {name} {module}';
 
     /**
      * The console command description.
@@ -40,6 +40,7 @@ class AddMiddlewareKernel extends Command
     {
         $name = ucfirst($this->argument('name'));
         $methodName = strtolower($name);
+        $module = ucfirst($this->argument('module'));
         //$kernelFile = app_path('Http/Kernel.php');
         $kernelFile = 'modules/ModuleServiceProvider.php';
         if (!File::exists($kernelFile)) {
@@ -49,10 +50,15 @@ class AddMiddlewareKernel extends Command
         $content = file_get_contents($kernelFile);
         //protected $routeMiddleware = [
 
-        $find = strstr($content, "{$methodName}.middleware", true);
+        $find = strstr($content, "{$methodName}.middleware", true);       
         if (!$find) {
             $foundString = 'add middleware';
-            $newString = "\n        '{$methodName}.middleware' => \\Modules\\{$name}\Http\Middleware\\{$name}::class,";
+            if($module){                
+                $newString = "\n        '{$methodName}.middleware' => \\Modules\\{$module}\Http\Middleware\\{$name}::class,";
+            }else{
+                $newString = "\n        '{$methodName}.middleware' => \\Modules\\{$name}\Http\Middleware\\{$name}::class,";
+            }
+            
             $content = str_replace($foundString, $foundString . $newString, $content);
             file_put_contents($kernelFile, $content);
         }
