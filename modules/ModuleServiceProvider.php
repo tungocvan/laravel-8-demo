@@ -9,7 +9,8 @@ class ModuleServiceProvider extends ServiceProvider
     {
     }
     private $middlewares = [
-        //add middleware                                
+        //add middleware
+        'post.middleware' => \Modules\Post\Http\Middleware\Post::class,                                
     ];
     private $commands = [
         // TestCommand::class
