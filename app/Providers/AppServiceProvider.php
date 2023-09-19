@@ -1,7 +1,6 @@
 <?php
 
 namespace App\Providers;
-use App\View\Components\CardText;
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\ServiceProvider;
 
@@ -25,6 +24,5 @@ class AppServiceProvider extends ServiceProvider
     public function boot()
     {
         //boot 
-	    Blade::component('card-text', CardText::class);        
     }
 }
