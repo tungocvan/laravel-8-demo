@@ -5,12 +5,14 @@ function send_mail($options){
     $cc = $options['cc'] ?? '';    
     $content  = $options['content'] ?? '<h3>This is test mail<h3>';
     $subject = $options['subject'] ?? 'Email send from HAMADA';
+    $attach = $options['attach'] ?? '';    
     try {
-    Mail::send([], [], function ($message) use ($to,$cc,$content, $subject) {
+    Mail::send([], [], function ($message) use ($to,$cc,$content, $subject,$attach) {
         $message->to($to);
         $cc && $message->cc($cc);
         $message->subject($subject);
         $message->setBody($content, 'text/html');
+        $attach && $message->attach($attach);
     });
     } catch (\Exception $e) {
         // Xử lý lỗi khi gửi email
