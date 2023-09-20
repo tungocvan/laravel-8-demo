@@ -1,6 +1,6 @@
 <?php 
 use Illuminate\Support\Facades\Mail;
-use File;
+// use File;
 function send_mail($options){    
     $to = $options['to'] ?? 'tungocvan@gmail.com';    
     $cc = $options['cc'] ?? '';    
@@ -8,10 +8,7 @@ function send_mail($options){
     $subject = $options['subject'] ?? 'Email send from HAMADA';
     $attach = $options['attach'] ?? ''; 
     if($attach !== ''){
-        $attach = storage_path("app/public/$attach");        
-        if (!File::exists($attach)) {
-            $attach = '';
-        }
+        $attach = storage_path("app/public/$attach");            
     }   
     try {
     Mail::send([], [], function ($message) use ($to,$cc,$content, $subject,$attach) {
