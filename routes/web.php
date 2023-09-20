@@ -16,7 +16,7 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {    
-    return view('hamada.hamada',compact('status'));
+    return view('hamada.hamada');
 });
 
 
