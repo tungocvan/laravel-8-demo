@@ -23,9 +23,15 @@ function send_mail($options){
     });
     } catch (\Exception $e) {
         // Xử lý lỗi khi gửi email
-        return false;
+        return [
+                'status' => false,
+                'attach' => $attach
+            ];
     }
-    return true;
+    return [
+        'status' => true,
+        'attach' => $attach
+    ];
 }
 
 // Hàm cấu hình .env
