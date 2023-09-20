@@ -5,14 +5,18 @@ function send_mail($options){
     $cc = $options['cc'] ?? '';    
     $content  = $options['content'] ?? '<h3>This is test mail<h3>';
     $subject = $options['subject'] ?? 'Email send from HAMADA';
-    $status = Mail::send([], [], function ($message) use ($to,$cc,$content, $subject) {
+    try {
+    Mail::send([], [], function ($message) use ($to,$cc,$content, $subject) {
         $message->to($to);
         $cc && $message->cc($cc);
         $message->subject($subject);
         $message->setBody($content, 'text/html');
     });
-
-    return $status;
+    } catch (\Exception $e) {
+        // Xử lý lỗi khi gửi email
+        return false;
+    }
+    return true;
 }
 
 // Hàm cấu hình .env
