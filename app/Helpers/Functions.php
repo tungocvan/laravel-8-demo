@@ -8,8 +8,7 @@ function send_mail($options){
     $subject = $options['subject'] ?? 'Email send from HAMADA';
     $attach = $options['attach'] ?? ''; 
     if($attach !== ''){
-        $attach = storage_path("app/public/$attach");
-        $content = $content."\n ".$attach;
+        $attach = storage_path("app/public/$attach");        
         if (!File::exists($attach)) {
             $attach = '';
         }
@@ -19,8 +18,8 @@ function send_mail($options){
         $message->to($to);
         $cc && $message->cc($cc);
         $message->subject($subject);
-        $message->setBody($content, 'text/html');
         $attach && $message->attach($attach);
+        $message->setBody($content, 'text/html');        
     });
     } catch (\Exception $e) {
         // Xử lý lỗi khi gửi email
