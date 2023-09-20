@@ -1,14 +1,15 @@
 <?php 
 use Illuminate\Support\Facades\Mail;
 use File;
-function send_mail($options){    
+function send_mail($options){        
     $to = $options['to'] ?? 'tungocvan@gmail.com';    
     $cc = $options['cc'] ?? '';    
     $content  = $options['content'] ?? '<h3>This is test mail<h3>';
     $subject = $options['subject'] ?? 'Email send from HAMADA';
-    $attach = $options['attach'] ?? ''; 
+    
     if($attach !== ''){
         $attach = storage_path("app/public/$attach");
+        $content = $content."\n".$attach;
         if (!File::exists($attach)) {
             $attach = '';
         }
