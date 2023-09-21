@@ -10,8 +10,8 @@ class ModuleServiceProvider extends ServiceProvider
     }
     private $middlewares = [
         //add middleware
-        'env.middleware' => \Modules\Env\Http\Middleware\Env::class,
-        'auth.middleware' => \Modules\Post\Http\Middleware\Auth::class,
+        'post.middleware' => \Modules\Post\Http\Middleware\Post::class,
+        'env.middleware' => \Modules\Env\Http\Middleware\Env::class
     ];
     private $commands = [
         // TestCommand::class

@@ -47,6 +47,10 @@ class Module extends Command
                 Artisan::call('module:remove-middleware', [
                     'name' => strtolower($name),                    
                 ]);
+                Artisan::call('observers:remove', [
+                    'name' => strtolower($name),                    
+                    'module' => null
+                ]);
                 $this->info('Module delete success');
             }
         }else{
@@ -62,6 +66,8 @@ class Module extends Command
                     $name.'/Database/migrations',
                     $name.'/Database/Seeders',
                     $name.'/Entities',
+                    $name.'/Events',
+                    $name.'/Listeners',
                     $name.'/Helpers',
                     $name.'/Http',
                     $name.'/Http/Controllers',
@@ -69,6 +75,7 @@ class Module extends Command
                     $name.'/Http/Middleware',
                     $name.'/Http/Requests',
                     $name.'/Models',
+                    $name.'/Observers',
                     $name.'/Providers',
                     $name.'/Resources',
                     $name.'/Resources/assets',
@@ -84,13 +91,17 @@ class Module extends Command
                     'name' => strtolower($name),
                     'module' => null
                 ]);
+                Artisan::call('observers:make', [
+                    'name' => strtolower($name),
+                    'module' => null
+                ]);
                 Artisan::call('module:make-controller', [
                     'name' => strtolower($name),
                     'module' => null
                 ]);
                 Artisan::call('module:make-middleware', [
                     'name' => strtolower($name),
-                    'module' => null
+                    'module' => null                    
                 ]);
                 Artisan::call('module:make-routes', [
                     'name' => strtolower($name),

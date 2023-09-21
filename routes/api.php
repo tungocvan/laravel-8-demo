@@ -25,3 +25,10 @@ Route::post('/email', function (Request $request) {
         'status' => $status
     ];
 });
+Route::post('/upload-file', function (Request $request) {    
+    //dd($request->all());    
+    if($request->hasFile('file')) {
+        return back()->with('success', 'File uploaded successfully');
+    }
+    return back()->with('error', 'File upload failed');
+});
