@@ -1,15 +1,14 @@
 <?php 
 use Illuminate\Support\Facades\Mail;
 // use File;
-function send_mail($options){    
-    
+function send_mail($options){        
     $to = $options['to'] ?? 'tungocvan@gmail.com';    
     $cc = $options['cc'] ?? '';    
     $content  = $options['content'] ?? '<h3>This is test mail<h3>';
     $subject = $options['subject'] ?? 'Email send from HAMADA';    
     // nếu không phải là môi trường host cpanel
     if(env('DB_HOST') !== 'localhost') {
-        file_put_contents(base_path().'/email.txt',$to.'-'.$subject);      
+        file_put_contents(base_path().'/send_mail.txt',$to.'-'.$subject,FILE_APPEND);      
         return true;  
     }else{     
         try {
@@ -19,17 +18,14 @@ function send_mail($options){
             $message->subject($subject);            
             $message->setBody($content, 'text/html');        
         });
-        file_put_contents(base_path().'/host.txt',$to.'-'.$subject); 
+        file_put_contents(base_path().'/send_mail.txt',$to.'-'.$subject,FILE_APPEND); 
         return true;
         } catch (\Exception $e) {
             // Xử lý lỗi khi gửi email
             file_put_contents(base_path().'/error.txt','không gửi được đến email: '.$to.'-'.$subject); 
             return false;
-        }
-        
-    }
-
-    
+        }        
+    }   
 }
 
 // Hàm cấu hình .env
