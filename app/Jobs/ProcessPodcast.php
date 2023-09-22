@@ -33,9 +33,10 @@ class ProcessPodcast implements ShouldQueue
     public function handle()
     {
         //
-        $filePath = base_path().'/jobs.txt';
-        $contentToAdd =$this->data['name']."\n";
-        file_put_contents($filePath ,$contentToAdd,FILE_APPEND);
-        //file_put_contents(base_path().'/jobs.txt','queue jobs');   
+        // $filePath = base_path().'/jobs.txt';
+        // $contentToAdd =$this->data['name']."\n";
+        // file_put_contents($filePath ,$contentToAdd,FILE_APPEND);
+        //file_put_contents(base_path().'/jobs.txt','queue jobs'); 
+        send_mail(['to' => 'tungocvan@gmail.com'])  ;
     }
 }

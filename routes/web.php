@@ -1,6 +1,7 @@
 <?php
 use App\Jobs\ProcessPodcast;
 use Illuminate\Http\Request;
+use App\Http\Requests\UserRequest;
 use Illuminate\Support\Facades\Route;
 /*
 |--------------------------------------------------------------------------
@@ -28,3 +29,11 @@ Route::get('/test/{name}', function ($name) {
     ProcessPodcast::dispatch($jobs)->delay(now()->addMinutes(1));
     return 'oki';
 });
+Route::get('/testLogin', function () {   
+    echo env('DB_HOST');
+    return view('auth.test-login');
+});
+Route::post('/testLogin', function (UserRequest $request) {   
+    
+})->name('test-login');
+

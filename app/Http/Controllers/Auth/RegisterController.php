@@ -85,7 +85,7 @@ class RegisterController extends Controller
             'password' => Hash::make($data['password']),
         ]);
         // ProcessPodcast::dispatch($user)->delay(now()->addMinutes(1));
-        ProcessPodcast::dispatch($user)->afterResponse();
+        // ProcessPodcast::dispatch($user)->afterResponse();
         return $user;
     }
 }

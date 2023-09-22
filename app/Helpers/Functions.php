@@ -2,33 +2,45 @@
 use Illuminate\Support\Facades\Mail;
 // use File;
 function send_mail($options){    
+    
     $to = $options['to'] ?? 'tungocvan@gmail.com';    
     $cc = $options['cc'] ?? '';    
     $content  = $options['content'] ?? '<h3>This is test mail<h3>';
     $subject = $options['subject'] ?? 'Email send from HAMADA';
     $attach = $options['attach'] ?? ''; 
-    if($attach !== ''){
-        $attach = storage_path("app/public/$attach");            
-    }   
-    try {
-    Mail::send([], [], function ($message) use ($to,$cc,$content, $subject,$attach) {
-        $message->to($to);
-        $cc && $message->cc($cc);
-        $message->subject($subject);
-        $attach && $message->attach($attach);
-        $message->setBody($content, 'text/html');        
-    });
-    } catch (\Exception $e) {
-        // Xử lý lỗi khi gửi email
+    // nếu không phải là môi trường host cpanel
+    if( env('DB_HOST') !== 'localhost') {
+        file_put_contents(base_path().'/email.txt',$to);     
         return [
-                'status' => false,
-                'attach' => $attach
-            ];
+            'status' => true,
+            'email' => $to
+        ];  
+    }else{
+        if($attach !== ''){
+            $attach = storage_path("app/public/$attach");            
+        }   
+        try {
+        Mail::send([], [], function ($message) use ($to,$cc,$content, $subject,$attach) {
+            $message->to($to);
+            $cc && $message->cc($cc);
+            $message->subject($subject);
+            $attach && $message->attach($attach);
+            $message->setBody($content, 'text/html');        
+        });
+        } catch (\Exception $e) {
+            // Xử lý lỗi khi gửi email
+            return [
+                    'status' => false,
+                    'attach' => $attach
+                ];
+        }
+        return [
+            'status' => true,
+            'attach' => $attach
+        ];
     }
-    return [
-        'status' => true,
-        'attach' => $attach
-    ];
+
+    
 }
 
 // Hàm cấu hình .env
