@@ -23,6 +23,7 @@ function send_mail($options){
         });
         } catch (\Exception $e) {
             // Xử lý lỗi khi gửi email
+            file_put_contents(base_path().'/error.txt','không gửi được đến email: '.$to); 
             return false;
         }
         return true;
