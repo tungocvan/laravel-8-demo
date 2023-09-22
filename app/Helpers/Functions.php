@@ -22,7 +22,7 @@ function send_mail($options){
         return true;
         } catch (\Exception $e) {
             // Xử lý lỗi khi gửi email
-            file_put_contents(base_path().'/error.txt','không gửi được đến email: '.$to.'-'.$subject); 
+            file_put_contents(base_path().'/error.txt','không gửi được đến email: '.$to.'-'.$subject,FILE_APPEND."\n"); 
             return false;
         }        
     }   
