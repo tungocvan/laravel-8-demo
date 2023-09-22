@@ -18,6 +18,8 @@ class ProcessPodcast implements ShouldQueue
      *
      * @return void
      */
+    public $timeout = 120;
+    public $tries = 3;
     protected $data;
     public function __construct($data)
     {
