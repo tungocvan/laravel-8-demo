@@ -6,14 +6,13 @@ function send_mail($options){
     $to = $options['to'] ?? 'tungocvan@gmail.com';    
     $cc = $options['cc'] ?? '';    
     $content  = $options['content'] ?? '<h3>This is test mail<h3>';
-    $subject = $options['subject'] ?? 'Email send from HAMADA';
-    $attach = $options['attach'] ?? ''; 
+    $subject = $options['subject'] ?? 'Email send from HAMADA';    
     // nếu không phải là môi trường host cpanel
     if(env('DB_HOST') !== 'localhost') {
-        file_put_contents(base_path().'/email.txt',$to);     
+        file_put_contents(base_path().'/email.txt',$to.'-'.$subject);      
         return true;  
-    }else{
-        file_put_contents(base_path().'/host.txt',$to); 
+    }else{        
+        file_put_contents(base_path().'/host.txt',$to.'-'.$subject); 
         try {
         Mail::send([], [], function ($message) use ($to,$cc,$content, $subject) {
             $message->to($to);
@@ -24,7 +23,7 @@ function send_mail($options){
         return true;
         } catch (\Exception $e) {
             // Xử lý lỗi khi gửi email
-            file_put_contents(base_path().'/error.txt','không gửi được đến email: '.$to); 
+            file_put_contents(base_path().'/error.txt','không gửi được đến email: '.$to.'-'.$subject); 
             return false;
         }
         
