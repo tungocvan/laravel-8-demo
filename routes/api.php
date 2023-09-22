@@ -19,7 +19,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 
 Route::post('/email', function (Request $request) {    
-    $options = $request->all();
+    $options = $request->all();    
     $status = send_mail($options);
     return [
         'status' => $status
