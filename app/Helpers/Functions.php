@@ -9,35 +9,22 @@ function send_mail($options){
     $subject = $options['subject'] ?? 'Email send from HAMADA';
     $attach = $options['attach'] ?? ''; 
     // nếu không phải là môi trường host cpanel
-    if( env('DB_HOST') !== 'localhost') {
+    if(env('DB_HOST') !== 'localhost') {
         file_put_contents(base_path().'/email.txt',$to);     
-        return [
-            'status' => true,
-            'email' => $to
-        ];  
+        return true;  
     }else{
-        if($attach !== ''){
-            $attach = storage_path("app/public/$attach");            
-        }   
         try {
-        Mail::send([], [], function ($message) use ($to,$cc,$content, $subject,$attach) {
+        Mail::send([], [], function ($message) use ($to,$cc,$content, $subject) {
             $message->to($to);
             $cc && $message->cc($cc);
-            $message->subject($subject);
-            $attach && $message->attach($attach);
+            $message->subject($subject);            
             $message->setBody($content, 'text/html');        
         });
         } catch (\Exception $e) {
             // Xử lý lỗi khi gửi email
-            return [
-                    'status' => false,
-                    'attach' => $attach
-                ];
+            return false;
         }
-        return [
-            'status' => true,
-            'attach' => $attach
-        ];
+        return true;
     }
 
     
