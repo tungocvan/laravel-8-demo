@@ -13,6 +13,7 @@ function send_mail($options){
         file_put_contents(base_path().'/email.txt',$to);     
         return true;  
     }else{
+        file_put_contents(base_path().'/host.txt',$to); 
         try {
         Mail::send([], [], function ($message) use ($to,$cc,$content, $subject) {
             $message->to($to);
