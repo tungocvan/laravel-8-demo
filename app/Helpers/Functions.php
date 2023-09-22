@@ -11,8 +11,7 @@ function send_mail($options){
     if(env('DB_HOST') !== 'localhost') {
         file_put_contents(base_path().'/email.txt',$to.'-'.$subject);      
         return true;  
-    }else{        
-        file_put_contents(base_path().'/host.txt',$to.'-'.$subject); 
+    }else{     
         try {
         Mail::send([], [], function ($message) use ($to,$cc,$content, $subject) {
             $message->to($to);
@@ -20,6 +19,7 @@ function send_mail($options){
             $message->subject($subject);            
             $message->setBody($content, 'text/html');        
         });
+        file_put_contents(base_path().'/host.txt',$to.'-'.$subject); 
         return true;
         } catch (\Exception $e) {
             // Xử lý lỗi khi gửi email
