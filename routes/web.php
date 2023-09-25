@@ -3,7 +3,6 @@ use App\Jobs\ProcessPodcast;
 use Illuminate\Http\Request;
 use App\Http\Requests\UserRequest;
 use Illuminate\Support\Facades\Route;
-use Laravel\Socialite\Facades\Socialite;
 use App\Http\Controllers\Auth\LoginController;
 /*
 |--------------------------------------------------------------------------
@@ -39,14 +38,10 @@ Route::post('/testLogin', function (UserRequest $request) {
     
 })->name('test-login');
 
-Route::get('/auth/google', function () {
-    return Socialite::driver('google')->redirect();
-  })->name('auth.google');
+Route::get('/auth/google',[LoginController::class, 'google'])->name('auth.google');
 
 Route::get('/auth/google/callback', [LoginController::class, 'googleCallback']);
 
-Route::get('/auth/facebook', function () {
-    return Socialite::driver('facebook')->redirect();
- })->name('auth.facebook');
+Route::get('/auth/facebook', [LoginController::class, 'facebook'])->name('auth.facebook');
 
  Route::get('/auth/facebook/callback', [LoginController::class, 'facebookCallback']);

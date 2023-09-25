@@ -11,6 +11,7 @@ use App\Providers\RouteServiceProvider;
 use Laravel\Socialite\Facades\Socialite;
 use Illuminate\Validation\ValidationException;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
+use Illuminate\Support\Str;
 
 class LoginController extends Controller
 {
@@ -68,7 +69,8 @@ class LoginController extends Controller
         }
         $dataArr = [
             $fieldb => $request->username,
-            'password' => $request->password
+            'password' => $request->password,
+            'status' => 0
         ];
         return $dataArr;
         //return $request->only($this->username(), 'password');
@@ -80,6 +82,8 @@ class LoginController extends Controller
         ]);
     }
 
+
+
     public function googleCallback()
     {
         $userGoogle = Socialite::driver('google')->user();        
@@ -88,19 +92,32 @@ class LoginController extends Controller
             $user = new User();
             $user->name = $userGoogle->getName();
             $user->email = $userGoogle->getEmail();
-            // $user->provider_id = $userGoogle->getId();
-            // $user->provider = 'google';
+            $user->provider_id = $userGoogle->getId();
+            $user->provider = 'google';
             $user->password = Hash::make(rand());
-            // $user->group_id = 1;
+            $user->group_id = 1;
+            $user->username =$user->email;
             $user->save();            
         }
-
+        $status =$user->status;
+        // kiểm tra status
         $userId = $user->id;
         //dd($userGoogle);
         Auth::loginUsingId($userId);
+        //Auth::login($user);
+        dd($user);
         return redirect($this->redirectTo);
     }
-
+    public function google()
+    {
+        return Socialite::driver('google')->redirect();        
+    }
+    
+    public function facebook()
+    {
+        return Socialite::driver('facebook')->redirect();        
+    }
+    
     public function facebookCallback()
     {
         $userFacebook = Socialite::driver('facebook')->user();
@@ -114,8 +131,11 @@ class LoginController extends Controller
             $user->provider = 'facebook';
             $user->password = Hash::make(rand());
             $user->group_id = 1;
+            $user->username =$user->email;
             $user->save();
         }
+        $status =$user->status;
+        // kiểm tra status
         $userId = $user->id;
         Auth::loginUsingId($userId);
         return redirect($this->redirectTo);
