@@ -27,18 +27,18 @@ class SocialiteController extends Controller
     public function googleCallback()
     {
         $userGoogle = Socialite::driver('google')->user();    
-        dd($userGoogle);    
-        // $user  = User::where('email', $userGoogle->getEmail())->first();
-        // if(!$user){                     
-        //     $user = new User();
-        //     $user->name = $userGoogle->getName();
-        //     $user->email = $userGoogle->getEmail();
-        //     $user->provider_id = $userGoogle->getId();
-        //     $user->provider = 'google';
-        //     $user->password = Hash::make(rand());
-        //     $user->group_id = 1;
-        //     $user->save();            
-        // }
+        //dd($userGoogle);    
+        $user  = User::where('email', $userGoogle->getEmail())->first();
+        if(!$user){                     
+            $user = new User();
+            $user->name = $userGoogle->getName();
+            $user->email = $userGoogle->getEmail();
+            // $user->provider_id = $userGoogle->getId();
+            // $user->provider = 'google';
+            $user->password = Hash::make(rand());
+            //$user->group_id = 1;
+            $user->save();            
+        }
         $userId = $user->id;        
         Auth::loginUsingId($userId);
         return redirect($this->redirectTo);
