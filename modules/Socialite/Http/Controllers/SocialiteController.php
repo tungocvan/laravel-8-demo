@@ -2,12 +2,13 @@
 
 namespace Modules\Socialite\Http\Controllers;
 
+use Auth;
+use App\Models\User;
+
+
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Laravel\Socialite\Facades\Socialite;
-
-use Auth;
-use App\Models\User;
 
 class SocialiteController extends Controller
 {  
