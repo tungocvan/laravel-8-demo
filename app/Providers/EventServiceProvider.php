@@ -1,7 +1,5 @@
 <?php
 namespace App\Providers;
-use Modules\Socialite\Models\Socialite;
-use Modules\Socialite\Observers\SocialiteObserver;
 use Modules\Post\Models\Post;
 use Modules\Post\Observers\PostObserver;
 use App\Models\User;
@@ -36,7 +34,6 @@ class EventServiceProvider extends ServiceProvider
     public function boot()
     {
         //observe
-		Socialite::observe(new SocialiteObserver);
 		Post::observe(new PostObserver);
         User::observe(new UserObserver);        
     }

@@ -10,7 +10,6 @@ class ModuleServiceProvider extends ServiceProvider
     }
     private $middlewares = [
         //add middleware
-        'socialite.middleware' => \Modules\Socialite\Http\Middleware\Socialite::class,
         'post.middleware' => \Modules\Post\Http\Middleware\Post::class,
         'env.middleware' => \Modules\Env\Http\Middleware\Env::class
     ];
