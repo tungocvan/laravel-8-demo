@@ -97,6 +97,7 @@ class LoginController extends Controller
             $user->password = Hash::make(rand());
             $user->group_id = 1;
             $user->username =$user->email;
+            $user->status = 0;
             $user->save();            
         }
         $status =$user->status;
@@ -105,7 +106,7 @@ class LoginController extends Controller
         //dd($userGoogle);
         Auth::loginUsingId($userId);
         //Auth::login($user);
-        dd($user);
+        //dd($user);
         return redirect($this->redirectTo);
     }
     public function google()
